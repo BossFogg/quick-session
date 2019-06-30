@@ -1,4 +1,4 @@
-# quick-session
+# Quick Session
 A simple-to-use, quick-to-set-up session manager. Ideal for the beginner or anyone who wants to quickly implement basic sessioning logic into their Node.js application.
 
 Uses crypto (encryption package built into Node) to generate JWTs. No external dependencies.
