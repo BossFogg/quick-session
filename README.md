@@ -21,7 +21,7 @@ And Quick Session is ready to use!
 
 There are also some optional parameters you can set:
 ````
-qSession.encryptScheme = "aes128"; //default "aes-123-cbc"  
+qSession.encryptScheme = "aes128"; //default "aes-128-cbc"  
 qSession.expireTime = 2000000; //Time in milliseconds till a session expires. Default 1800000
 ````
 
