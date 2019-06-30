@@ -36,11 +36,14 @@ sessionManager.findSessionByToken = function(token) {
 }
 
 sessionManager.newSession = function(id) {
-	let newSession = {
-		id: id,
-		created: new Date().getTime(),
-		token: sessionManager.createToken(id, this.created)
-	}
+	let newSession = this.findSessionById(id);
+	if (!newSession) {
+		newSession = {
+			id: id,
+			created: new Date().getTime(),
+			token: sessionManager.createToken(id, this.created)
+		}
+	}	
 	if (newSession.token) {
 		this.sessionList.push(newSession);
 		return newSession;
@@ -55,8 +58,8 @@ sessionManager.expired = function(session) {
 }
 
 sessionManager.createToken = function(id, created) {
-	if (!this.salt || !this.encryptScheme) { 
-		console.log("Error: missing salt and/or encrypt scheme!");
+	if (!this.salt) { 
+		console.log("Error: missing salt!");
 		return null;
 	}
 	else {
