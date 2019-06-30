@@ -1,0 +1,27 @@
+{
+  "name": "quick-session",
+  "version": "1.0.0",
+  "description": "A simple-to-use, quick-to-set-up session manager for node",
+  "main": "session.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BossFogg/quick-session.git"
+  },
+  "keywords": [
+    "session",
+    "jwt",
+    "encryption",
+    "quick",
+    "simple"
+  ],
+  "author": "Richard Bond",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BossFogg/quick-session/issues"
+  },
+  "homepage": "https://github.com/BossFogg/quick-session#readme",
+  "dependencies": {}
+}
