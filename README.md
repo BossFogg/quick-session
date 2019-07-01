@@ -33,9 +33,9 @@ let session = qSession.newSession(uniqueIdOfUser);
 // returns session object with token
 ````
 
-Send `session.token` to client to use as JWT.  
+After you've created the session, send `session.token` to client for use as a JWT.  
   
-Authenticate a session token (JWT) sent back by client:
+When the client sends back the session token with a request, authenticate it:
 ````
 let currentSession = findSessionByToken(token)
 //return session object. if no session found, return null
