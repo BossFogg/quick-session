@@ -8,6 +8,7 @@ sessionManager.salt;
 //Use defaults or set values after importing
 sessionManager.encryptScheme = "aes-256-cbc";
 sessionManager.expireTime = 1800000;
+sessionManager.maxIdleTime = 1800000;
 
 sessionManager.sessionList = [];
 
@@ -54,7 +55,8 @@ sessionManager.newSession = function(id) {
 sessionManager.expired = function(session) {
 	let now = new Date().getTime();
 	if ((now - session.created) > this.expireTime) { return true; }
-	return false;
+	else if ((now - session.created) > this.maxIdleTime) { return true; }
+	else return false;
 }
 
 sessionManager.createToken = function(id, created) {

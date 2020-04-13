@@ -21,8 +21,9 @@ And Quick Session is ready to use!
 
 There are also some optional parameters you can set:
 ````
-qSession.encryptScheme = "aes128"; //default "aes-128-cbc"  
-qSession.expireTime = 2000000; //Time in milliseconds till a session expires. Default 1800000
+qSession.encryptScheme = "aes128"; //default "aes-128-cbc"
+qSession.expireTime = 2000000; //Maximum lifetime of a session in milliseconds. Default 1800000
+qSession.maxIdleTime = 50000; //Max time in milliseconds that a user can be idle before expiring. Default 1800000
 ````
 
 ## Usage
@@ -37,7 +38,7 @@ After you've created the session, send `session.token` to client for use as a JW
   
 When the client sends back the session token with a request, authenticate it:
 ````
-let currentSession = findSessionByToken(token)
+let currentSession = quickSession.findSessionByToken(token)
 //return session object. if no session found, return null
 ````
 
