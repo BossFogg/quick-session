@@ -39,10 +39,11 @@ sessionManager.findSessionByToken = function(token) {
 sessionManager.newSession = function(id) {
 	let newSession = this.findSessionById(id);
 	if (!newSession) {
+		let createdAt = new Date().getTime();
 		newSession = {
 			id: id,
-			created: new Date().getTime(),
-			token: sessionManager.createToken(id, this.created)
+			created: createdAt,
+			token: sessionManager.createToken(id, createdAt)
 		}
 	}	
 	if (newSession.token) {
@@ -65,9 +66,9 @@ sessionManager.createToken = function(id, created) {
 		return null;
 	}
 	else {
-		let cipher = crypto.createCipher(this.encryptScheme, this.salt);
-		let token = cipher.update(id + created, "utf8", "hex");
-		token += cipher.final("hex");
+		let key = crypto.scryptSync(id + created, this.salt, 32);
+		let cipher = crypto.createCipheriv(this.encryptScheme, key, crypto.randomBytes(16));
+		let token = cipher.final("hex");
 		return token;
 	}
 }
