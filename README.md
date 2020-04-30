@@ -21,8 +21,6 @@ And Quick Session is ready to use!
 
 There are also some optional parameters you can set:
 ````
-qSession.encryptScheme = "aes128"; //default "aes-128-cbc"
-
 //Maximum lifetime of a session in milliseconds. Default 1800000
 qSession.expireTime = 2000000;
 
@@ -38,12 +36,24 @@ let session = qSession.newSession(uniqueIdOfUser);
 // returns session object with token
 ````
 
-After you've created the session, send `session.token` to client for use as a JWT.  
+After you've created the session, send `session.token` to for use as a JWT to be sent back with each request.
   
-When the client sends back the session token with a request, authenticate it:
+When the client sends back the session token with a request, authenticate it by checking for an active session.
 ````
 let currentSession = qSession.findSessionByToken(token)
-//return session object. if no session found, return null
+//returns a session object. if no session found, currentSession will be null
+````
+
+If necessary, you can also look up active sessions by a user's unique id.
+````
+let currentSession = qSession.findSessionById(id);
+````
+
+Session objects are simple JSON objects with three properties:
+````
+currentSession.id;      \\The unique id of the user
+currentSession.created  \\The date and time the session was created
+currentSession.token    \\The session token used for authentication
 ````
 
 All sessions are automatically stored and managed by Quick Session. This includes preventing duplicate sessions for users and removing expired sessions.
