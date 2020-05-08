@@ -66,7 +66,8 @@ sessionManager.createToken = function(id, created) {
 		return null;
 	}
 	else {
-		let key = crypto.scryptSync(id + created, this.salt, 32);
+		let keyVal = "" + id + created;
+		let key = crypto.scryptSync(keyVal, this.salt, 32);
 		let cipher = crypto.createCipheriv(this.encryptScheme, key, crypto.randomBytes(16));
 		let token = cipher.final("hex");
 		return token;
