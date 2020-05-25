@@ -28,9 +28,9 @@ IMPORTANT: Whatever strings you choose for the salt and password, make sure you 
 
 #### 3. Optional configuration:
 
-You can also set a custom expiry time for your sessions:
+You can also set a custom expiry time (in milliseconds) for your sessions:
 ````
-qSession.expireTime = 2000000; //Default 1800000
+qSession.expireTime = 2000000; //Default 600000000
 ````
 
 And that's it! Quick Session is ready to use.

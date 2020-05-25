@@ -8,8 +8,8 @@ sessionManager.pass;
 //Use defaults or set values after importing
 sessionManager.encryptScheme = "aes-256-cbc";
 
-sessionManager.expireTime = 1800000;
-sessionManager.maxIdleTime = 1800000;
+sessionManager.expireTime = 600000000;
+sessionManager.maxIdleTime = 600000000;
 
 sessionManager.sessionList = [];
 
