@@ -14,6 +14,8 @@ sessionManager.maxIdleTime = 1800000;
 sessionManager.sessionList = [];
 
 sessionManager.findSessionById = function(id) {
+	console.log("Deprecation warning: findSessionById() is now deprecated and will be removed in the near future." + 
+		"use getSessionJWT() instead.");
 	let foundSession;
 	this.sessionList.forEach(function(session) {
 		if (sessionManager.expired(session)) { sessionManager.cleanup(session); }
@@ -26,6 +28,8 @@ sessionManager.findSessionById = function(id) {
 }
 
 sessionManager.findSessionByToken = function(token) {
+	console.log("Deprecation warning: findSessionByToken() is now deprecated and will be removed in the near future." + 
+		"use getSessionJWT() instead.");
 	let foundSession;
 	this.sessionList.forEach(function(session) {
 		if (sessionManager.expired(session)) { sessionManager.cleanup(session); }
@@ -38,6 +42,8 @@ sessionManager.findSessionByToken = function(token) {
 }
 
 sessionManager.newSession = function(id) {
+	console.log("Deprecation warning: createSession() is now deprecated and will be removed in the near future." + 
+		"use createSessionJWT() instead.");
 	let newSession = this.findSessionById(id);
 	if (!newSession) {
 		let createdAt = new Date().getTime();
