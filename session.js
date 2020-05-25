@@ -4,9 +4,10 @@ let sessionManager = {};
 
 //Set this variable after importing the module
 sessionManager.salt;
-
+sessionManager.pass;
 //Use defaults or set values after importing
 sessionManager.encryptScheme = "aes-256-cbc";
+
 sessionManager.expireTime = 1800000;
 sessionManager.maxIdleTime = 1800000;
 
@@ -72,6 +73,67 @@ sessionManager.createToken = function(id, created) {
 		let token = cipher.final("hex");
 		return token;
 	}
+}
+
+sessionManager.newIV = function() {
+	let out = "";
+	while (out.length < 16) { out += Math.random().toString(16).substring(2); }
+	return out.substring(0,16);
+}
+
+sessionManager.createJWT = function(session) {
+	if (!this.salt || !this.pass) { 
+		if (!this.salt) console.error("Error: You must provide a salt! You can do this by initializing the" + 
+			" 'salt' property on your quick-session instance with a string of your choosing.");
+		if (!this.pass) console.error("Error: You must provide an encryption password! You can do this by " + 
+			"initializing the 'pass' property on your quick-session instance with a string of your choosing.");
+		return null;
+	}
+	else {
+		let data = JSON.stringify(session);
+		let key = crypto.scryptSync(this.pass, this.salt, 32);
+		let iv = this.newIV();
+		let cipher = crypto.createCipheriv(this.encryptScheme, key, iv);
+		let token = cipher.update(data, 'utf8', 'hex');
+		token += cipher.final("hex");
+		return token + iv;
+	}
+}
+
+sessionManager.readJWT = function(jwt) {
+	if (!this.salt || !this.pass) { 
+		if (!this.salt) console.error("Error: You must provide a salt! You can do this by initializing the" + 
+			" 'salt' property on your quick-session instance with a string of your choosing.");
+		if (!this.pass) console.error("Error: You must provide an encryption password! You can do this by " + 
+			"initializing the 'pass' property on your quick-session instance with a string of your choosing.");
+		return null;
+	}
+	else {
+		let key = crypto.scryptSync(this.pass, this.salt, 32);
+		let data = jwt.substring(0, jwt.length - 16);
+		let iv = jwt.substring(jwt.length - 16);
+		let decipher = crypto.createDecipheriv(this.encryptScheme, key, iv);
+		let session = decipher.update(data, 'hex', 'utf8');
+		session += decipher.final("utf8");
+		return JSON.parse(session);
+	}
+}
+
+sessionManager.getSessionJWT = function(jwt) {
+	let session = this.readJWT(jwt);
+	if (session && session.id && session.created) {
+		let now = new Date().getTime();
+		if (session.created + this.expireTime > now) return session;
+	}
+	return null;
+}
+
+sessionManager.createSessionJWT = function(id) {
+	let session = {
+		id: id,
+		created: new Date().getTime()
+	};
+	return this.createJWT(session);
 }
 
 sessionManager.cleanup = function(session) {
